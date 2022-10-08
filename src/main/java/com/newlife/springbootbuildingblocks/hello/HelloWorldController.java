@@ -3,6 +3,7 @@ package com.newlife.springbootbuildingblocks.hello;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//controller
 @RestController
 public class HelloWorldController {
 	
