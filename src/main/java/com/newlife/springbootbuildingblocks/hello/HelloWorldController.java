@@ -14,5 +14,11 @@ public class HelloWorldController {
 	public String helloWorld() {
 		return "hello world";
 	}
+	
+	//bean --> gets a json object response from to string
+	@GetMapping("/helloworld-bean")
+	public UserDetails helloworldBean() {
+		return new UserDetails("suraj", "nagre", "aurangabad");
+	}
 
 }
