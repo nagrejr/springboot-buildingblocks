@@ -1,0 +1,3 @@
+insert into users(ID , EMAIL_ADDRESS , FIRST_NAME , LAST_NAME , ROLE , SSN , USER_NAME) values(101, 'kreddy@newlife.com', 'Kalyan', 'Reddy', 'admin', 'ssn101', 'kreddy');
+insert into users(ID , EMAIL_ADDRESS , FIRST_NAME , LAST_NAME , ROLE , SSN , USER_NAME) values(102, 'gwiser@newlife.com', 'Greg', 'Wiser', 'admin', 'ssn102', 'gwiser');
+insert into users(ID , EMAIL_ADDRESS , FIRST_NAME , LAST_NAME , ROLE , SSN , USER_NAME) values(103, 'dmark@newlife.com', 'David', 'Mark', 'admin', 'ssn103', 'dmark');    
