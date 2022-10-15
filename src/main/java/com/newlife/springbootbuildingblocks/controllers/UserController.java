@@ -3,10 +3,14 @@ package com.newlife.springbootbuildingblocks.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +23,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.newlife.springbootbuildingblocks.entities.User;
 import com.newlife.springbootbuildingblocks.exceptions.UserAlreadyExistException;
+import com.newlife.springbootbuildingblocks.exceptions.UserNameNotFoundException;
 import com.newlife.springbootbuildingblocks.exceptions.UserNotFoundException;
 import com.newlife.springbootbuildingblocks.services.UserService;
 
 @RestController
+//for global exception handler validation
+@Validated
 public class UserController {
 
 	// autowired the service
@@ -38,9 +45,10 @@ public class UserController {
 	// postmapping for creating user
 	// accept User input as a requestbody
 	@PostMapping("users")
-	// UriComponentsBuilder - factory class for getting instances of UriComponents which are helpful for constructing URIs
-	public ResponseEntity<Void> createUser(@RequestBody User user, UriComponentsBuilder uriComponentsBuilder) {
-		
+	// UriComponentsBuilder - factory class for getting instances of UriComponents
+	// which are helpful for constructing URIs
+	public ResponseEntity<Void> createUser(@Valid @RequestBody User user, UriComponentsBuilder uriComponentsBuilder) {
+
 		// user created 201 status code
 		// implementation is only in controller, not in service
 		try {
@@ -49,8 +57,7 @@ public class UserController {
 			HttpHeaders httpHeaders = new HttpHeaders();
 			httpHeaders.setLocation(uriComponentsBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri());
 			return new ResponseEntity<Void>(httpHeaders, HttpStatus.CREATED);
-		}
-		catch(UserAlreadyExistException e) {
+		} catch (UserAlreadyExistException e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
 	}
@@ -58,7 +65,8 @@ public class UserController {
 	// getuserbyid method
 	@GetMapping("/users/{id}")
 	// path variable is to use id from mapping for input
-	public Optional<User> getUserById(@PathVariable("id") Long id) {
+	// min(1) for the minimum id should be 1 not 0
+	public Optional<User> getUserById(@PathVariable("id") @Min(1) Long id) {
 
 		// try catch block to handle UserNotException
 		try {
@@ -97,7 +105,12 @@ public class UserController {
 	// getmapping
 	// used username as a pathvariable input
 	@GetMapping("users/byusername/{username}")
-	public User getUserByUsername(@PathVariable("username") String username) {
-		return userService.getUserByUsername(username);
+	// throws custom username not found exception
+	public User getUserByUsername(@PathVariable("username") String username) throws UserNameNotFoundException {
+
+		User user = userService.getUserByUsername(username);
+		if (user == null)
+			throw new UserNameNotFoundException("Username: '" + username + "' not found in User repository");
+		return user;
 	}
 }

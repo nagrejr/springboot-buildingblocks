@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 //can give any name for jpa entity by using name= "nameforentity"
 //default entity name would be class name
@@ -13,40 +15,46 @@ import javax.persistence.Table;
 //table name = user is not validated as it is pre-defined in sql
 @Table(name = "users")
 public class User {
-	
-	//id create primary key
+
+	// id create primary key
 	@Id
-	//generated value to configure the way of increment of the specified column(field)
+	// generated value to configure the way of increment of the specified
+	// column(field)
 	@GeneratedValue
 	private Long id;
-	
-	//column to create column with specified name, length(applicable only for string variable)
-	//nullable - the value of the variable should be null or not
-	//unique - the value should be as unique constraints
+
+	// Global Validation
+	@NotEmpty(message = "username should not be empty, please provide username")
+	// column to create column with specified name, length(applicable only for
+	// string variable)
+	// nullable - the value of the variable should be null or not
+	// unique - the value should be as unique constraints
 	@Column(name = "USER_NAME", length = 50, nullable = false, unique = true)
 	private String username;
-	
+
+	// global validation
+	@Size(min = 2, message = "first name should be atleast 2 characters")
 	@Column(name = "FIRST_NAME", length = 50, nullable = false)
 	private String firstname;
-	
+
 	@Column(name = "LAST_NAME", length = 50, nullable = false)
 	private String lastname;
-	
+
 	@Column(name = "EMAIL_ADDRESS", length = 50, nullable = false)
 	private String email;
-	
+
 	@Column(name = "ROLE", length = 50, nullable = false)
 	private String role;
-	
+
 	@Column(name = "SSN", length = 50, nullable = false, unique = true)
 	private String ssn;
 
-	//no argument constructor is mandatory for this pojo class
+	// no argument constructor is mandatory for this pojo class
 	public User() {
-		
+
 	}
 
-	//fields constructor is optional
+	// fields constructor is optional
 	public User(Long id, String username, String firstname, String lastname, String email, String role, String ssn) {
 		this.id = id;
 		this.username = username;
@@ -57,7 +65,7 @@ public class User {
 		this.ssn = ssn;
 	}
 
-	//getters and setters are mandatory
+	// getters and setters are mandatory
 	public Long getId() {
 		return id;
 	}
@@ -114,17 +122,12 @@ public class User {
 		this.ssn = ssn;
 	}
 
-	//toString is optional
-	//used for bean logging
+	// toString is optional
+	// used for bean logging
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", firstname=" + firstname + ", lastname=" + lastname
 				+ ", email=" + email + ", role=" + role + ", ssn=" + ssn + "]";
 	}
-	
-	
-	
-	
-	
 
 }
