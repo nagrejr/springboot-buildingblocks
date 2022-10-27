@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -30,6 +31,9 @@ import com.newlife.springbootbuildingblocks.services.UserService;
 @RestController
 //for global exception handler validation
 @Validated
+//this requestmapping will keep the mapping user common for all class methods
+//get or post or delete or update --> any mapping
+@RequestMapping(value = "/users")
 public class UserController {
 
 	// autowired the service
@@ -37,14 +41,15 @@ public class UserController {
 	private UserService userService;
 
 	// getallusers method from service class
-	@GetMapping("/users")
+	@GetMapping//("/users") 
+	//commented due to class requestmapping
 	public List<User> getAllUsers() {
 		return userService.getAllUsers();
 	}
 
 	// postmapping for creating user
 	// accept User input as a requestbody
-	@PostMapping("users")
+	@PostMapping//("users")
 	// UriComponentsBuilder - factory class for getting instances of UriComponents
 	// which are helpful for constructing URIs
 	public ResponseEntity<Void> createUser(@Valid @RequestBody User user, UriComponentsBuilder uriComponentsBuilder) {
@@ -63,7 +68,8 @@ public class UserController {
 	}
 
 	// getuserbyid method
-	@GetMapping("/users/{id}")
+	//@GetMapping("/users/{id}") -->commented due to class requestmapping
+	@GetMapping("/{id}")
 	// path variable is to use id from mapping for input
 	// min(1) for the minimum id should be 1 not 0
 	public Optional<User> getUserById(@PathVariable("id") @Min(1) Long id) {
@@ -79,7 +85,7 @@ public class UserController {
 
 	}
 
-	@PutMapping("/users/{id}")
+	@PutMapping("/{id}")
 	// using pathvariable and requestbody as a input
 	public User updateUserById(@PathVariable("id") Long id, @RequestBody User user) {
 
@@ -94,7 +100,7 @@ public class UserController {
 
 	}
 
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/{id}")
 	// taking only id as a pathvariable input
 	public void deleteUserById(@PathVariable("id") Long id) {
 		userService.deleteUserById(id);

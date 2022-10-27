@@ -2,10 +2,10 @@ package com.newlife.springbootbuildingblocks;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 //second commit
-@SpringBootApplication(exclude = SqlInitializationAutoConfiguration.class)
+@SpringBootApplication
 //@EntityScan("com.newlife.springbootbuildingblocks.entities")
 public class SpringbootBuildingblocksApplication {
 
