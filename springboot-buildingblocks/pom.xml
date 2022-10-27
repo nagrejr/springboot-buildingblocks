@@ -8,14 +8,15 @@
 		<version>2.1.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.stacksimplify.restservices</groupId>
+	<!-- <groupId>com.stacksimplify.restservices</groupId> -->
+	<groupId>com.newlife.springbootbuildingblocks</groupId>
 	<artifactId>springboot-buildingblocks</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>springboot-buildingblocks</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencies>
